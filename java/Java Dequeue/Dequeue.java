@@ -74,37 +74,49 @@
 // El tamaño de la ventana esta dado por m y la iteracion por i
 // Aprovecho las estructuras de datos de Java. Set guarda valores sin repetición y Deque 
 // es una cola que me va a dejar quitar tanto del ppio como del final
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Dequeue {
     
-    public static void main(String[] args) {
         
-        int max = -1;
-        Scanner in = new Scanner(System.in);
-        int n = in.nextInt();
-        int m = in.nextInt();
+    public static void main(String[] args) {
+        try{
+            List<Integer> valores = new ArrayList<>();
+            Deque<Integer> ventana = new ArrayDeque<>();
+            Set<Integer> unicos = new HashSet<>();
+            int max = -1;
+            // Cambio el uso de Scanner por BufferedReader para el input porque es mas performante
+            // cada nextInt() de Scanner hace trabajo extra y con grandes volumenes de tokens la
+            // diferencia de performance es significativa
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        List<Integer> valores = new ArrayList<>();
+            // Lee primera linea (n y m)
+            String[] limites = br.readLine().trim().split(" ");
+            int n = Integer.parseInt(limites[0]);
+            int m = Integer.parseInt(limites[1]);
+            // Lee segunda linea (lista de valores)
+            valores = Stream.of(br.readLine().trim().split(" "))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
 
-        for (int i = 0; i < n; i++) {
-            valores.add(in.nextInt());
-        }
+            br.close();
 
-        Deque<Integer> ventana = new ArrayDeque<>();
-        Set<Integer> unicos = new HashSet<>();
+            for (int i = 0; i < n; i++) {
+                int aux=valores.get(i);
+                unicos.add(aux);
+                ventana.addLast(aux);
 
-        for (int i = 0; i < n; i++) {
-            int aux=valores.get(i);
-            unicos.add(aux);
-            ventana.addLast(aux);
+                if (ventana.size() > m) {
+                    int eliminado = ventana.removeFirst();
 
-            if (ventana.size() > m) {
-                int eliminado = ventana.removeFirst();
-
-                if(!ventana.contains(eliminado))
-                    unicos.remove(eliminado);
-                
+                    if(!ventana.contains(eliminado))
+                        unicos.remove(eliminado);
+                    
             } 
 
             if(ventana.size() == m){
@@ -113,5 +125,9 @@ public class Dequeue {
         }
 
         System.out.println(max);
+    } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        
     }
 }
