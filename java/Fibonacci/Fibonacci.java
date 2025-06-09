@@ -24,20 +24,16 @@ public class Fibonacci {
      */
     public static BigInteger fibonacci(int lim, ArrayList<BigInteger> val) 
     {
-        int tam;
-        if(val.size() < lim)
-            tam = val.size()-2;
         if(val.isEmpty())
         {
-            tam=2;
             val.add(BigInteger.ZERO);
             val.add(BigInteger.ONE);
-            for(int i = tam; i < lim; i++) {
-                val.add(val.get(i-1).add(val.get(i-2)));   
-            }
+        }
+        for(int i = val.size(); i <= lim; i++) {
+            val.add(val.get(i-1).add(val.get(i-2)));   
         }
         
-        return val.get(lim-1);
+        return val.get(lim);
     }
 
 }
