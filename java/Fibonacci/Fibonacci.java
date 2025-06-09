@@ -1,12 +1,15 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Fibonacci {
     
     public static void main(String[] args) {
         ArrayList<BigInteger> val = new ArrayList<>();
-        System.out.println(fibonacci(100000,val));
-        System.out.println(fibonacci(5, val));
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        scanner.close();
+        System.out.println(fibonacci(n, val));
     }
 
     /* Implementación de Fibonacci con MEMOIZACION, practicando Programación Dinámica.
